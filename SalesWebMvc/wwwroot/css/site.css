@@ -1,3 +1,14 @@
+body {
+    font-family: 'Open Sans', sans-serif, Arial;
+}
+
+.navbar {
+    font-family: Montserrat, sans-serif, Arial;
+}
+
+.footer {
+    font-family: Ubuntu, sans-serif, Arial;
+}
 html {
   font-size: 14px;
 }
