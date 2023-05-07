@@ -1,31 +1,43 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
-using System.Configuration;
-
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuração do banco de dados
 builder.Services.AddDbContext<SalesWebMvcContext>((serviceProvider, optionsBuilder) =>
 {
     var configuration = serviceProvider.GetService<IConfiguration>();
-    optionsBuilder.UseMySql(configuration.GetConnectionString("SalesWebMvcContext"), new MySqlServerVersion(new Version(8,0)), mySqlOptions =>
+    var connectionString = configuration.GetConnectionString("SalesWebMvcContext");
+    optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0)), mySqlOptions =>
     {
         mySqlOptions.MigrationsAssembly("SalesWebMvc");
     });
-}); ;
+});
 
-// Add services to the container.
+// Registro do serviço de seeding
+builder.Services.AddScoped<SeedingService, SeedingService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+var dbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<SalesWebMvcContext>();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Se estiver em ambiente de desenvolvimento, popula o banco de dados
+if (app.Environment.IsDevelopment())
+{
+    SeedingService seedingService = new SeedingService(dbContext);
+    seedingService.Seed();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseExceptionHandler("/Home/Error");
+app.UseHsts();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
