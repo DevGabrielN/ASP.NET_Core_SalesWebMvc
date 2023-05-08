@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
+using SalesWebMvc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,8 @@ builder.Services.AddDbContext<SalesWebMvcContext>((serviceProvider, optionsBuild
 });
 
 // Registro do serviço de seeding
-builder.Services.AddScoped<SeedingService, SeedingService>();
+builder.Services.AddScoped<SeedingService>();
+builder.Services.AddScoped<SellerService>();
 
 builder.Services.AddControllersWithViews();
 
