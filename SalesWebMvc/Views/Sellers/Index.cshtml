@@ -1,9 +1,13 @@
-﻿@model IEnumerable<Seller>
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Seller>
 @{
     ViewData["Title"] = "Sellers";
 }
 <h2>@ViewData["Title"]</h2>
-
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create new</a>
+</p>
 <table class="table table-striped table-hover">
     <thead>
         <tr class = "table-success">
