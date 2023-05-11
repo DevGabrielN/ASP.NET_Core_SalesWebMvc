@@ -3,6 +3,8 @@ using SalesWebMvc.Models;
 using SalesWebMvc.Services;
 using SalesWebMvc.Models.ViewModels;
 using System.Security.Cryptography.Xml;
+using System.Security.Cryptography.X509Certificates;
+using SalesWebMvc.Services.Exceptions;
 
 namespace SalesWebMvc.Controllers
 {
@@ -41,12 +43,12 @@ namespace SalesWebMvc.Controllers
         [HttpGet]
         public IActionResult Delete(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
             Seller seller = _sellerService.FindById(id.Value);
-            if(seller == null)
+            if (seller == null)
             {
                 return NotFound();
             }
@@ -72,6 +74,47 @@ namespace SalesWebMvc.Controllers
                 return NotFound();
             }
             return View(seller);
+        }
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Seller seller = _sellerService.FindById(id.Value);
+            if (seller == null)
+            {
+                return NotFound();
+            }
+
+            List<Department> departments = _departmentService.FindAll();
+            SellerFormViewModel viewModel = new SellerFormViewModel()
+            {
+                Seller = seller,
+                Departments = departments
+            };
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult Edit(int id, Seller seller)
+        {
+            if (id != seller.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _sellerService.Update(seller);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException e) { 
+                return NotFound(e);
+            }
+            catch (DbconcurrencyException e)
+            {
+                return BadRequest(e);
+            }
         }
 
     }
