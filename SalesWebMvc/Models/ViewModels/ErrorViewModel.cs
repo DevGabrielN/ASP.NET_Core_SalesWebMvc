@@ -4,6 +4,8 @@ namespace SalesWebMvc.Models
     {
         public string? RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public string? Message { get; set; }
+
+        public bool ShowRequestId => (RequestId != null);
     }
 }
