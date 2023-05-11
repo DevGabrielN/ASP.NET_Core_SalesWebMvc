@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace SalesWebMvc.Models
 {
@@ -23,6 +24,8 @@ namespace SalesWebMvc.Models
         [Display(Name = "Base Salary")]
         public double BaseSalary { get; set; }
         public Department Department { get; set; }
+        [Display(Name = "Department")]
+        [Required(ErrorMessage = "{0} required")]
         public int DepartmentId { get; set; }
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
 
