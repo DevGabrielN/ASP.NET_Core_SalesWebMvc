@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SalesWebMvc.Models;
-using SalesWebMvc.Services;
 using SalesWebMvc.Models.ViewModels;
-using System.Security.Cryptography.Xml;
-using System.Security.Cryptography.X509Certificates;
+using SalesWebMvc.Services;
 using SalesWebMvc.Services.Exceptions;
 using System.Diagnostics;
 

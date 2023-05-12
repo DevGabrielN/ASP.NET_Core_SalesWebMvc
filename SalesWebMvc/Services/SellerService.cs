@@ -1,10 +1,8 @@
-﻿using SalesWebMvc.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SalesWebMvc.Data;
 using SalesWebMvc.Models;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Plugins;
 using SalesWebMvc.Services.Exceptions;
 using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMvc.Services
 {
